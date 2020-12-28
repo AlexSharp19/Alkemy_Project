@@ -1,0 +1,49 @@
+﻿@model Alkemy.Models.ViewModels.SubjectViewModel
+@{
+    ViewBag.Title = "Agregar Materia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+
+        @using (Html.BeginForm("Add", "Subjects", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+
+            @Html.LabelFor(s => s.Subject_Name)
+            @Html.TextBoxFor(s => s.Subject_Name, new { @class = "form-control" })
+            @Html.ValidationMessage("Subject_Name", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(s => s.Day)
+            @Html.TextBoxFor(s => s.Day, new { @class = "form-control" })
+            @Html.ValidationMessage("Day", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(s => s.StartTime)
+            @Html.TextBoxFor(s => s.StartTime, new { @class = "form-control" })
+            @Html.ValidationMessage("StartTime", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(s => s.EndingTime)
+            @Html.TextBoxFor(s => s.EndingTime, new { @class = "form-control" })
+            @Html.ValidationMessage("EndingTime", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(s => s.Teacher_Id)
+            @Html.TextBoxFor(s => s.Teacher_Id, new { @class = "form-control" })
+            @Html.ValidationMessage("Teacher_Id", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(s => s.Quota)
+            @Html.TextBoxFor(s => s.Quota, new { @class = "form-control" })
+            @Html.ValidationMessage("Quota", new { @class = "text-danger" })<br />
+
+
+            <div style="text-align:left;">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+
+        }
+
+    </div>
+</div>

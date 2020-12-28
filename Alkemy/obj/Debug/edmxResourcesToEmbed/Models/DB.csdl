@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SubjectsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SubjectsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Subjects" EntityType="SubjectsModel.Subjects" />
+    <EntitySet Name="Teachers" EntityType="SubjectsModel.Teachers" />
+    <EntitySet Name="Type_User" EntityType="SubjectsModel.Type_User" />
+    <EntitySet Name="Users" EntityType="SubjectsModel.Users" />
+    <AssociationSet Name="Fk_Subjects_Teachers" Association="SubjectsModel.Fk_Subjects_Teachers">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="Subjects" EntitySet="Subjects" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Users_Type_User" Association="SubjectsModel.Fk_Users_Type_User">
+      <End Role="Type_User" EntitySet="Type_User" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="SubjectsxStudents" Association="SubjectsModel.SubjectsxStudents">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Subjects" EntitySet="Subjects" />
+    </AssociationSet>
+    <FunctionImport Name="SP_Quota">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_StudentxSubject">
+      <Parameter Name="Id_Student" Mode="In" Type="Int32" />
+      <Parameter Name="Id_Subject" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Subjects">
+    <Key>
+      <PropertyRef Name="Subject_Id" />
+    </Key>
+    <Property Name="Subject_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Subject_Name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Subject_StartTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Subject_EndingTime" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Subject_Day" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Subject_Id_Teacher" Type="Int32" Nullable="false" />
+    <Property Name="Subject_Quota" Type="Int32" Nullable="false" />
+    <Property Name="Subject_State" Type="Boolean" />
+    <NavigationProperty Name="Teachers" Relationship="SubjectsModel.Fk_Subjects_Teachers" FromRole="Subjects" ToRole="Teachers" />
+    <NavigationProperty Name="Users" Relationship="SubjectsModel.SubjectsxStudents" FromRole="Subjects" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Teachers">
+    <Key>
+      <PropertyRef Name="Id_Teacher" />
+    </Key>
+    <Property Name="Id_Teacher" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Dni" Type="Int32" Nullable="false" />
+    <Property Name="Teacher_Name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Teacher_LastName" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Teacher_State" Type="Boolean" />
+    <NavigationProperty Name="Subjects" Relationship="SubjectsModel.Fk_Subjects_Teachers" FromRole="Teachers" ToRole="Subjects" />
+  </EntityType>
+  <EntityType Name="Type_User">
+    <Key>
+      <PropertyRef Name="Id_Type_User" />
+    </Key>
+    <Property Name="Id_Type_User" Type="Int32" Nullable="false" />
+    <Property Name="Name_Type" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Users" Relationship="SubjectsModel.Fk_Users_Type_User" FromRole="Type_User" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="File_Number" />
+    </Key>
+    <Property Name="File_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Dni" Type="Int32" Nullable="false" />
+    <Property Name="Id_Type_User_U" Type="Int32" Nullable="false" />
+    <Property Name="Users_state" Type="Boolean" />
+    <NavigationProperty Name="Type_User" Relationship="SubjectsModel.Fk_Users_Type_User" FromRole="Users" ToRole="Type_User" />
+    <NavigationProperty Name="Subjects" Relationship="SubjectsModel.SubjectsxStudents" FromRole="Users" ToRole="Subjects" />
+  </EntityType>
+  <Association Name="Fk_Subjects_Teachers">
+    <End Type="SubjectsModel.Teachers" Role="Teachers" Multiplicity="1" />
+    <End Type="SubjectsModel.Subjects" Role="Subjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="Id_Teacher" />
+      </Principal>
+      <Dependent Role="Subjects">
+        <PropertyRef Name="Subject_Id_Teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Users_Type_User">
+    <End Type="SubjectsModel.Type_User" Role="Type_User" Multiplicity="1" />
+    <End Type="SubjectsModel.Users" Role="Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type_User">
+        <PropertyRef Name="Id_Type_User" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="Id_Type_User_U" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SubjectsxStudents">
+    <End Type="SubjectsModel.Users" Role="Users" Multiplicity="*" />
+    <End Type="SubjectsModel.Subjects" Role="Subjects" Multiplicity="*" />
+  </Association>
+</Schema>

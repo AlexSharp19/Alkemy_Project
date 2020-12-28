@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SubjectsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Subjects">
+    <Key>
+      <PropertyRef Name="Subject_Id" />
+    </Key>
+    <Property Name="Subject_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subject_Name" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="Subject_StartTime" Type="time" Precision="7" Nullable="false" />
+    <Property Name="Subject_EndingTime" Type="time" Precision="7" Nullable="false" />
+    <Property Name="Subject_Day" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Subject_Id_Teacher" Type="int" Nullable="false" />
+    <Property Name="Subject_Quota" Type="int" Nullable="false" />
+    <Property Name="Subject_State" Type="bit" />
+  </EntityType>
+  <EntityType Name="SubjectsxStudents">
+    <Key>
+      <PropertyRef Name="File_Number_SxS" />
+      <PropertyRef Name="Subject_Id_SxS" />
+    </Key>
+    <Property Name="File_Number_SxS" Type="int" Nullable="false" />
+    <Property Name="Subject_Id_SxS" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Teachers">
+    <Key>
+      <PropertyRef Name="Id_Teacher" />
+    </Key>
+    <Property Name="Id_Teacher" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Dni" Type="int" Nullable="false" />
+    <Property Name="Teacher_Name" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="Teacher_LastName" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="Teacher_State" Type="bit" />
+  </EntityType>
+  <EntityType Name="Type_User">
+    <Key>
+      <PropertyRef Name="Id_Type_User" />
+    </Key>
+    <Property Name="Id_Type_User" Type="int" Nullable="false" />
+    <Property Name="Name_Type" Type="varchar" MaxLength="8" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="File_Number" />
+    </Key>
+    <Property Name="File_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Dni" Type="int" Nullable="false" />
+    <Property Name="Id_Type_User_U" Type="int" Nullable="false" />
+    <Property Name="Users_state" Type="bit" />
+  </EntityType>
+  <Association Name="FK__Subjectsx__File___44FF419A">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="SubjectsxStudents" Type="Self.SubjectsxStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="File_Number" />
+      </Principal>
+      <Dependent Role="SubjectsxStudents">
+        <PropertyRef Name="File_Number_SxS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Subjectsx__Subje__45F365D3">
+    <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+    <End Role="SubjectsxStudents" Type="Self.SubjectsxStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subjects">
+        <PropertyRef Name="Subject_Id" />
+      </Principal>
+      <Dependent Role="SubjectsxStudents">
+        <PropertyRef Name="Subject_Id_SxS" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Subjects_Teachers">
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+    <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="Id_Teacher" />
+      </Principal>
+      <Dependent Role="Subjects">
+        <PropertyRef Name="Subject_Id_Teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Users_Type_User">
+    <End Role="Type_User" Type="Self.Type_User" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type_User">
+        <PropertyRef Name="Id_Type_User" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="Id_Type_User_U" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="SP_Quota" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_StudentxSubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id_Student" Type="int" Mode="In" />
+    <Parameter Name="Id_Subject" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="SubjectsModelStoreContainer">
+    <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubjectsxStudents" EntityType="Self.SubjectsxStudents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Type_User" EntityType="Self.Type_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Subjectsx__File___44FF419A" Association="Self.FK__Subjectsx__File___44FF419A">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SubjectsxStudents" EntitySet="SubjectsxStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Subjectsx__Subje__45F365D3" Association="Self.FK__Subjectsx__Subje__45F365D3">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="SubjectsxStudents" EntitySet="SubjectsxStudents" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Subjects_Teachers" Association="Self.Fk_Subjects_Teachers">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="Subjects" EntitySet="Subjects" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Users_Type_User" Association="Self.Fk_Users_Type_User">
+      <End Role="Type_User" EntitySet="Type_User" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

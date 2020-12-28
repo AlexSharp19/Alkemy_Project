@@ -1,0 +1,60 @@
+﻿@model List<Alkemy.Models.TableViewModels.SubjectTableViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Materias</h2>
+<div class="row">
+    <div class="col-md-12">
+        <input type="button" class="btn btn-primary" onclick="document.location.href='@Url.Content("~/Subjects/Add")'" value="Nueva" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dia</th>
+                <th>Horario Inicio</th>
+                <th>Horario Fin</th>
+                <th>Profesor</th>
+                <th>Cupos</th>
+                <th></th>
+            </tr>
+            @foreach (var oElemento in Model)
+            {
+                <tr>
+                    <td>@oElemento.Id_Subject</td>
+                    <td>@oElemento.Name</td>
+                    <td>@oElemento.Day</td>
+                    <td>@oElemento.Start_Time</td>
+                    <td>@oElemento.Ending_Time</td>
+                    <td>@oElemento.Name_Teacher</td>
+                    <td>@oElemento.Quota</td>
+                    <td>
+                        <input onclick="jsDelete(@oElemento.Id_Subject);" type="button" value="Eliminar" class="btn btn-danger" />
+                        <input onclick="document.location.href='@Url.Content("~/Subjects/Edit/"+oElemento.Id_Subject)'" type="button" value="Editar" class="btn btn-default" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script>
+    function jsDelete(id) {
+        if (confirm("Seguro desea eliminarlo?")) {
+            url = "@Url.Content("~/Subjects/Delete")" + "/"+id;
+
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Subjects/")"
+                } else {
+                    alert("Ocurrio un error :(")
+                }
+            })
+        }
+    }
+</script>

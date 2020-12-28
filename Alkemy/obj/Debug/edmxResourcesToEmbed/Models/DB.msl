@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SubjectsModelStoreContainer" CdmEntityContainer="SubjectsEntities">
+    <EntitySetMapping Name="Subjects">
+      <EntityTypeMapping TypeName="SubjectsModel.Subjects">
+        <MappingFragment StoreEntitySet="Subjects">
+          <ScalarProperty Name="Subject_State" ColumnName="Subject_State" />
+          <ScalarProperty Name="Subject_Quota" ColumnName="Subject_Quota" />
+          <ScalarProperty Name="Subject_Id_Teacher" ColumnName="Subject_Id_Teacher" />
+          <ScalarProperty Name="Subject_Day" ColumnName="Subject_Day" />
+          <ScalarProperty Name="Subject_EndingTime" ColumnName="Subject_EndingTime" />
+          <ScalarProperty Name="Subject_StartTime" ColumnName="Subject_StartTime" />
+          <ScalarProperty Name="Subject_Name" ColumnName="Subject_Name" />
+          <ScalarProperty Name="Subject_Id" ColumnName="Subject_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teachers">
+      <EntityTypeMapping TypeName="SubjectsModel.Teachers">
+        <MappingFragment StoreEntitySet="Teachers">
+          <ScalarProperty Name="Teacher_State" ColumnName="Teacher_State" />
+          <ScalarProperty Name="Teacher_LastName" ColumnName="Teacher_LastName" />
+          <ScalarProperty Name="Teacher_Name" ColumnName="Teacher_Name" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Id_Teacher" ColumnName="Id_Teacher" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Type_User">
+      <EntityTypeMapping TypeName="SubjectsModel.Type_User">
+        <MappingFragment StoreEntitySet="Type_User">
+          <ScalarProperty Name="Name_Type" ColumnName="Name_Type" />
+          <ScalarProperty Name="Id_Type_User" ColumnName="Id_Type_User" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="SubjectsModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Users_state" ColumnName="Users_state" />
+          <ScalarProperty Name="Id_Type_User_U" ColumnName="Id_Type_User_U" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="File_Number" ColumnName="File_Number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="SubjectsxStudents" TypeName="SubjectsModel.SubjectsxStudents" StoreEntitySet="SubjectsxStudents">
+      <EndProperty Name="Subjects">
+        <ScalarProperty Name="Subject_Id" ColumnName="Subject_Id_SxS" />
+      </EndProperty>
+      <EndProperty Name="Users">
+        <ScalarProperty Name="File_Number" ColumnName="File_Number_SxS" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Quota" FunctionName="SubjectsModel.Store.SP_Quota" />
+    <FunctionImportMapping FunctionImportName="SP_StudentxSubject" FunctionName="SubjectsModel.Store.SP_StudentxSubject" />
+  </EntityContainerMapping>
+</Mapping>

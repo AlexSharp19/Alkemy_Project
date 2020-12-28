@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SubjectsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="Subject_Id" />
+          </Key>
+          <Property Name="Subject_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Subject_Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Subject_StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Subject_EndingTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Subject_Day" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Subject_Id_Teacher" Type="int" Nullable="false" />
+          <Property Name="Subject_Quota" Type="int" Nullable="false" />
+          <Property Name="Subject_State" Type="bit" />
+        </EntityType>
+        <EntityType Name="SubjectsxStudents">
+          <Key>
+            <PropertyRef Name="File_Number_SxS" />
+            <PropertyRef Name="Subject_Id_SxS" />
+          </Key>
+          <Property Name="File_Number_SxS" Type="int" Nullable="false" />
+          <Property Name="Subject_Id_SxS" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teachers">
+          <Key>
+            <PropertyRef Name="Id_Teacher" />
+          </Key>
+          <Property Name="Id_Teacher" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dni" Type="int" Nullable="false" />
+          <Property Name="Teacher_Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Teacher_LastName" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Teacher_State" Type="bit" />
+        </EntityType>
+        <EntityType Name="Type_User">
+          <Key>
+            <PropertyRef Name="Id_Type_User" />
+          </Key>
+          <Property Name="Id_Type_User" Type="int" Nullable="false" />
+          <Property Name="Name_Type" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="File_Number" />
+          </Key>
+          <Property Name="File_Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dni" Type="int" Nullable="false" />
+          <Property Name="Id_Type_User_U" Type="int" Nullable="false" />
+          <Property Name="Users_state" Type="bit" />
+        </EntityType>
+        <Association Name="FK__Subjectsx__File___44FF419A">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="SubjectsxStudents" Type="Self.SubjectsxStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="File_Number" />
+            </Principal>
+            <Dependent Role="SubjectsxStudents">
+              <PropertyRef Name="File_Number_SxS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjectsx__Subje__45F365D3">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="SubjectsxStudents" Type="Self.SubjectsxStudents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="Subject_Id" />
+            </Principal>
+            <Dependent Role="SubjectsxStudents">
+              <PropertyRef Name="Subject_Id_SxS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Subjects_Teachers">
+          <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teachers">
+              <PropertyRef Name="Id_Teacher" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="Subject_Id_Teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Users_Type_User">
+          <End Role="Type_User" Type="Self.Type_User" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_User">
+              <PropertyRef Name="Id_Type_User" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Id_Type_User_U" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_Quota" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_StudentxSubject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Student" Type="int" Mode="In" />
+          <Parameter Name="Id_Subject" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="SubjectsModelStoreContainer">
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubjectsxStudents" EntityType="Self.SubjectsxStudents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_User" EntityType="Self.Type_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Subjectsx__File___44FF419A" Association="Self.FK__Subjectsx__File___44FF419A">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SubjectsxStudents" EntitySet="SubjectsxStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjectsx__Subje__45F365D3" Association="Self.FK__Subjectsx__Subje__45F365D3">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="SubjectsxStudents" EntitySet="SubjectsxStudents" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Subjects_Teachers" Association="Self.Fk_Subjects_Teachers">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Users_Type_User" Association="Self.Fk_Users_Type_User">
+            <End Role="Type_User" EntitySet="Type_User" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SubjectsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SubjectsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Subjects" EntityType="SubjectsModel.Subjects" />
+          <EntitySet Name="Teachers" EntityType="SubjectsModel.Teachers" />
+          <EntitySet Name="Type_User" EntityType="SubjectsModel.Type_User" />
+          <EntitySet Name="Users" EntityType="SubjectsModel.Users" />
+          <AssociationSet Name="Fk_Subjects_Teachers" Association="SubjectsModel.Fk_Subjects_Teachers">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Users_Type_User" Association="SubjectsModel.Fk_Users_Type_User">
+            <End Role="Type_User" EntitySet="Type_User" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="SubjectsxStudents" Association="SubjectsModel.SubjectsxStudents">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <FunctionImport Name="SP_Quota">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_StudentxSubject">
+            <Parameter Name="Id_Student" Mode="In" Type="Int32" />
+            <Parameter Name="Id_Subject" Mode="In" Type="Int32" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="Subject_Id" />
+          </Key>
+          <Property Name="Subject_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject_Name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Subject_StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Subject_EndingTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Subject_Day" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Subject_Id_Teacher" Type="Int32" Nullable="false" />
+          <Property Name="Subject_Quota" Type="Int32" Nullable="false" />
+          <Property Name="Subject_State" Type="Boolean" />
+          <NavigationProperty Name="Teachers" Relationship="SubjectsModel.Fk_Subjects_Teachers" FromRole="Subjects" ToRole="Teachers" />
+          <NavigationProperty Name="Users" Relationship="SubjectsModel.SubjectsxStudents" FromRole="Subjects" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Teachers">
+          <Key>
+            <PropertyRef Name="Id_Teacher" />
+          </Key>
+          <Property Name="Id_Teacher" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dni" Type="Int32" Nullable="false" />
+          <Property Name="Teacher_Name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Teacher_LastName" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Teacher_State" Type="Boolean" />
+          <NavigationProperty Name="Subjects" Relationship="SubjectsModel.Fk_Subjects_Teachers" FromRole="Teachers" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Type_User">
+          <Key>
+            <PropertyRef Name="Id_Type_User" />
+          </Key>
+          <Property Name="Id_Type_User" Type="Int32" Nullable="false" />
+          <Property Name="Name_Type" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="SubjectsModel.Fk_Users_Type_User" FromRole="Type_User" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="File_Number" />
+          </Key>
+          <Property Name="File_Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dni" Type="Int32" Nullable="false" />
+          <Property Name="Id_Type_User_U" Type="Int32" Nullable="false" />
+          <Property Name="Users_state" Type="Boolean" />
+          <NavigationProperty Name="Type_User" Relationship="SubjectsModel.Fk_Users_Type_User" FromRole="Users" ToRole="Type_User" />
+          <NavigationProperty Name="Subjects" Relationship="SubjectsModel.SubjectsxStudents" FromRole="Users" ToRole="Subjects" />
+        </EntityType>
+        <Association Name="Fk_Subjects_Teachers">
+          <End Type="SubjectsModel.Teachers" Role="Teachers" Multiplicity="1" />
+          <End Type="SubjectsModel.Subjects" Role="Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teachers">
+              <PropertyRef Name="Id_Teacher" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="Subject_Id_Teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Users_Type_User">
+          <End Type="SubjectsModel.Type_User" Role="Type_User" Multiplicity="1" />
+          <End Type="SubjectsModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_User">
+              <PropertyRef Name="Id_Type_User" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Id_Type_User_U" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SubjectsxStudents">
+          <End Type="SubjectsModel.Users" Role="Users" Multiplicity="*" />
+          <End Type="SubjectsModel.Subjects" Role="Subjects" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SubjectsModelStoreContainer" CdmEntityContainer="SubjectsEntities">
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="SubjectsModel.Subjects">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="Subject_State" ColumnName="Subject_State" />
+                <ScalarProperty Name="Subject_Quota" ColumnName="Subject_Quota" />
+                <ScalarProperty Name="Subject_Id_Teacher" ColumnName="Subject_Id_Teacher" />
+                <ScalarProperty Name="Subject_Day" ColumnName="Subject_Day" />
+                <ScalarProperty Name="Subject_EndingTime" ColumnName="Subject_EndingTime" />
+                <ScalarProperty Name="Subject_StartTime" ColumnName="Subject_StartTime" />
+                <ScalarProperty Name="Subject_Name" ColumnName="Subject_Name" />
+                <ScalarProperty Name="Subject_Id" ColumnName="Subject_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="SubjectsModel.Teachers">
+              <MappingFragment StoreEntitySet="Teachers">
+                <ScalarProperty Name="Teacher_State" ColumnName="Teacher_State" />
+                <ScalarProperty Name="Teacher_LastName" ColumnName="Teacher_LastName" />
+                <ScalarProperty Name="Teacher_Name" ColumnName="Teacher_Name" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="Id_Teacher" ColumnName="Id_Teacher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_User">
+            <EntityTypeMapping TypeName="SubjectsModel.Type_User">
+              <MappingFragment StoreEntitySet="Type_User">
+                <ScalarProperty Name="Name_Type" ColumnName="Name_Type" />
+                <ScalarProperty Name="Id_Type_User" ColumnName="Id_Type_User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SubjectsModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Users_state" ColumnName="Users_state" />
+                <ScalarProperty Name="Id_Type_User_U" ColumnName="Id_Type_User_U" />
+                <ScalarProperty Name="Dni" ColumnName="Dni" />
+                <ScalarProperty Name="File_Number" ColumnName="File_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="SubjectsxStudents" TypeName="SubjectsModel.SubjectsxStudents" StoreEntitySet="SubjectsxStudents">
+            <EndProperty Name="Subjects">
+              <ScalarProperty Name="Subject_Id" ColumnName="Subject_Id_SxS" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="File_Number" ColumnName="File_Number_SxS" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Quota" FunctionName="SubjectsModel.Store.SP_Quota" />
+          <FunctionImportMapping FunctionImportName="SP_StudentxSubject" FunctionName="SubjectsModel.Store.SP_StudentxSubject" />
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

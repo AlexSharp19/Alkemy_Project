@@ -1,0 +1,36 @@
+﻿@model Alkemy.Models.ViewModels.TeacherViewModel
+@{
+    ViewBag.Title = "Agregar Profesor";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+
+        @using (Html.BeginForm("Add", "Teachers", FormMethod.Post, new { role = "form", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationMessage("error", new { @class = "text-danger" })
+
+            @Html.LabelFor(d => d.Name)
+            @Html.TextBoxFor(d => d.Name, new { @class = "form-control" })
+            @Html.ValidationMessage("Name", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.LastName)
+            @Html.TextBoxFor(d => d.LastName, new { @class = "form-control" })
+            @Html.ValidationMessage("LastName", new { @class = "text-danger" })<br />
+
+            @Html.LabelFor(d => d.Dni)
+            @Html.TextBoxFor(d => d.Dni, new { @class = "form-control" })
+            @Html.ValidationMessage("Dni", new { @class = "text-danger" })<br />
+
+            <div style="text-align:left;">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+
+        }
+
+    </div>
+</div>

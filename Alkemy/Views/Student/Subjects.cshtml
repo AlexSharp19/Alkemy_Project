@@ -1,0 +1,56 @@
+﻿@model List<Alkemy.Models.TableViewModels.SubjectTableViewModel>
+@{
+    ViewBag.Title = "Materias";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dia</th>
+                    <th>Horario Inicio</th>
+                    <th>Horario Fin</th>
+                    <th>Profesor</th>
+                    <th>Cupos</th>
+                    <th></th>
+                </tr>
+                @foreach (var oElemento in Model)
+                {
+                    <tr>
+                        <td>@oElemento.Name</td>
+                        <td>@oElemento.Day</td>
+                        <td>@oElemento.Start_Time</td>
+                        <td>@oElemento.Ending_Time</td>
+                        <td>@oElemento.Name_Teacher</td>
+                        <td>@oElemento.Quota</td>
+                        <td>
+                            <input onclick="jsEnroll(@oElemento.Id_Subject);" type="button" value="Inscribirse" class="btn btn-success" />
+                        </td>
+                    </tr>
+                }
+            </table>
+    </div>
+</div>
+
+<script>
+    function jsEnroll(Id) {
+            url = "@Url.Content("~/Student/Enroll")" + "/"+Id;
+
+            $.post(url, function (data) {
+                if (data == "1") {
+                    alert("Se inscribio correctamente")
+                    document.location.href = "@Url.Content("~/Student/Subjects/")"
+                } else if (data == "2") {
+                    alert("No hay mas vacantes :(")
+                } else {
+                    alert(data)
+                }
+            })
+    }
+</script>
+
+
